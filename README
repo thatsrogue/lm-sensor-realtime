@@ -1,3 +1,4 @@
+# Graphing lm-sensors data with D3
 Point here is to try re-creating the graph from scratch
 With the end goal to be a large re-design potentially having data come in at real time, to be graphed, and simultaneously or after - inserted to the DB.
 I need a Node JS server running on my machine or in a docker container
