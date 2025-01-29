@@ -10,7 +10,6 @@ console.log('Server running on port: ', port)
 
 const { execSync } = require('child_process');
 let options = { encoding: 'utf8', stdio: ['stdout'] }
-let reading = JSON.parse(execSync('sensors -j', options))
 
 // So lots of things will now happen.... I'll firstly need to run this on a loop and store the results somehow.
 // The way to go might be to have that dict of timestamps and readings under each.
@@ -19,17 +18,36 @@ let reading = JSON.parse(execSync('sensors -j', options))
 
 
 
-
-let adapter = ''
-let recAtThisTime = []
-for (const [device, lowerObj] of Object.entries(reading)) {
-    for (const [adaptersensor, adaptypeOrSensor] of Object.entries(lowerObj)) {
-        if (adaptersensor === 'Adapter') {
-
-        } else {
-            for (const [sensorNum, value] of Object.entries(adaptypeOrSensor)) {
-                console.log(value)
+function getSensorData(queryFor) {
+    let reading = JSON.parse(execSync('sensors -j', options))
+    let adapter = ''
+    let sensorMeta = []
+    let readings = []
+    for (const [device, lowerObj] of Object.entries(reading)) {
+        for (const [adaptersensor, adaptypeOrSensor] of Object.entries(lowerObj)) {
+            if (adaptersensor === 'Adapter') {
+                adapter = adaptypeOrSensor
+            } else {
+                for (const [sensorNum, value] of Object.entries(adaptypeOrSensor)) {
+                    if (queryFor === 'meta') {
+                        sensorMeta.push([device, adapter, adaptersensor, sensorNum])
+                    } else {
+                        readings.push(value)
+                    }
+                }
             }
         }
     }
+    if (queryFor === 'meta') { return sensorMeta }
+    else { return readings }
+}
+
+sensorMeta = getSensorData('meta')
+
+let sensorValues = {}
+while (true) {
+    timeNowInMs = Date.now()
+    const currentValues = 
+    sensorValues[timeNowInMs] = getSensorData('vals')
+    console.log(timeNowInMs)
 }
