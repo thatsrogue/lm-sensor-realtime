@@ -45,9 +45,3 @@ function getSensorData(queryFor) {
 sensorMeta = getSensorData('meta')
 
 let sensorValues = {}
-while (true) {
-    timeNowInMs = Date.now()
-    const currentValues = 
-    sensorValues[timeNowInMs] = getSensorData('vals')
-    console.log(timeNowInMs)
-}
