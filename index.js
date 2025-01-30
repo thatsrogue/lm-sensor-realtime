@@ -38,6 +38,7 @@ function getSensorData(queryFor) {
             }
         }
     }
+    console.log("Updating!")
     if (queryFor === 'meta') { return sensorMeta }
     else { return readings }
 }
@@ -45,3 +46,17 @@ function getSensorData(queryFor) {
 sensorMeta = getSensorData('meta')
 
 let sensorValues = {}
+
+// I could asynchronously update the data in the background..
+
+function updateValues() {
+    getSensorData('vals')
+    setTimeout(() => {
+        updateValues()
+    })
+}
+
+setTimeout(() => {
+    updateValues()
+}, 0)
+
