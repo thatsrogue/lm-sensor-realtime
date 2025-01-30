@@ -19,6 +19,7 @@ let options = { encoding: 'utf8', stdio: ['stdout'] }
 
 
 function getSensorData(queryFor) {
+    // This function needs to run async or as it is it's blocking everything else
     let reading = JSON.parse(execSync('sensors -j', options))
     let adapter = ''
     let sensorMeta = []
